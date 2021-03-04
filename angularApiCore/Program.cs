@@ -24,6 +24,7 @@ namespace angularApiCore
                 {
                     var context = services.GetRequiredService<StoreContext>();
                     await context.Database.MigrateAsync();
+                    await StoreContextSeed.SeedAsync(context,loggerFactory); // Adding our seeder
                 }
                 catch (Exception e)
                 {
