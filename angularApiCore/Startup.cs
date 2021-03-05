@@ -49,6 +49,7 @@ namespace angularApiCore
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
