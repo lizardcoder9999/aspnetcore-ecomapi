@@ -1,4 +1,5 @@
-﻿using angularApiCore.Helpers;
+﻿using angularApiCore.Extensions;
+using angularApiCore.Helpers;
 using Core.interfaces;
 using Infrastructure.Data;
 using Infrastructure.Identity;
@@ -49,6 +50,9 @@ namespace angularApiCore
             });
 
             services.AddScoped<IBasketRepository, BasketRepository>();
+
+            //Added are own Identity Extension
+            services.AddIdentityServices();
             
             services.AddSwaggerGen(c =>
             {
