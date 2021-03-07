@@ -1,6 +1,7 @@
 ﻿using angularApiCore.Helpers;
 using Core.interfaces;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,16 @@ namespace angularApiCore
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
+            
+            //Store Context Setup
             services.AddDbContext<StoreContext>(x => x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
+            
+            //Identity DbContext Setup
+            services.AddDbContext<AppIdentityDbContext>(x =>
+            {
+                x.UseSqlServer(_config.GetConnectionString("IdentityConnection"));
+            });
+            
             //Redis setup
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
