@@ -3,6 +3,7 @@ using angularApiCore.Helpers;
 using Core.interfaces;
 using Infrastructure.Data;
 using Infrastructure.Identity;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +53,9 @@ namespace angularApiCore
             services.AddScoped<IBasketRepository, BasketRepository>();
 
             //Added are own Identity Extension
-            services.AddIdentityServices();
+            services.AddIdentityServices(_config);
+
+            services.AddScoped<ITokenService, TokenService>();
             
             services.AddSwaggerGen(c =>
             {
@@ -87,7 +90,8 @@ namespace angularApiCore
             app.UseStaticFiles();
 
             
-
+            app.UseAuthentication();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
