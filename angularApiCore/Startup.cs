@@ -29,9 +29,16 @@ namespace angularApiCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            //Product Repository setup
             services.AddScoped<IProductRepository, ProductRepository>();
+            
+            //Generic Repository setup
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            
+            //AutoMapper setup
             services.AddAutoMapper(typeof(MappingProfiles));
+            
             services.AddControllers();
             
             //Store Context Setup

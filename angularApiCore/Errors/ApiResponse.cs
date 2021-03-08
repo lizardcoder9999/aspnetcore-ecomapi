@@ -23,6 +23,7 @@ namespace angularApiCore.Errors
         {
             return statusCode switch
             {
+                203 => "Email Already in use",
                 400 => "A bad request was made",
                 401 => "Unauthorized Request",
                 404 => "A Resource on the server was not found",
