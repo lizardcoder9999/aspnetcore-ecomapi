@@ -41,6 +41,9 @@ namespace angularApiCore
             
             services.AddControllers();
             
+            //Order service setup
+            services.AddScoped<IOrderService, OrderService>();
+            
             //Store Context Setup
             services.AddDbContext<StoreContext>(x => x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
             
@@ -57,12 +60,18 @@ namespace angularApiCore
                 return ConnectionMultiplexer.Connect(configuration);
             });
 
+            //Basket repository setup
             services.AddScoped<IBasketRepository, BasketRepository>();
 
             //Added are own Identity Extension
             services.AddIdentityServices(_config);
-
+            
+            //Token service setup
             services.AddScoped<ITokenService, TokenService>();
+            
+            //Unit of work setup
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             
             services.AddSwaggerGen(c =>
             {
