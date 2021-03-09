@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using angularApiCore.Errors;
 using Core.interfaces;
 using Core.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +20,11 @@ namespace angularApiCore.Controllers
         [HttpPost("{basketId}")]
         public async Task<ActionResult<CustomerBasket>> CreateOrUpdatePAymentIntent(string basketId)
         {
-            return await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+            var basket =  await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+
+            if (basket == null) return BadRequest(new ApiResponse(400));
+
+            return basket;
         }
     }
 }

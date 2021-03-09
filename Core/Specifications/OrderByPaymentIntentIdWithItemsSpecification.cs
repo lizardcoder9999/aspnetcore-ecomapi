@@ -1,0 +1,18 @@
+﻿using System;
+using System.Linq.Expressions;
+using Core.Models.OrderAggregate;
+
+namespace Core.Specifications
+{
+    public class OrderByPaymentIntentIdWithItemsSpecification : BaseSpecification<Order>
+    {
+        public OrderByPaymentIntentIdWithItemsSpecification()
+        {
+        }
+
+        public OrderByPaymentIntentIdWithItemsSpecification(string paymentIntentId) 
+            : base(o => o.PaymentIntentId == paymentIntentId)
+        {
+        }
+    }
+}
