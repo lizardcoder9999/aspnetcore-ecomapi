@@ -19,7 +19,7 @@ namespace angularApiCore.Controllers
         [HttpPost("{basketId}")]
         public async Task<ActionResult<CustomerBasket>> CreateOrUpdatePAymentIntent(string basketId)
         {
-            
+            return await _paymentService.CreateOrUpdatePaymentIntent(basketId);
         }
     }
 }
