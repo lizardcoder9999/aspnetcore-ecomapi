@@ -108,6 +108,9 @@ ipch/
 *.vspx
 *.sap
 
+#appsetting.json
+appsettings.json
+
 # Visual Studio Trace Files
 *.e2e
 

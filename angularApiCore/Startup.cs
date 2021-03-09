@@ -69,10 +69,12 @@ namespace angularApiCore
             //Token service setup
             services.AddScoped<ITokenService, TokenService>();
             
+            //Stripe Payment service setup
+            services.AddScoped<IPaymentService, PaymentService>();
+            
             //Unit of work setup
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "angularApiCore", Version = "v1" });
