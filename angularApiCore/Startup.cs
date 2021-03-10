@@ -74,7 +74,10 @@ namespace angularApiCore
             
             //Unit of work setup
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            
+            //Caching service setup
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+                
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "angularApiCore", Version = "v1" });
