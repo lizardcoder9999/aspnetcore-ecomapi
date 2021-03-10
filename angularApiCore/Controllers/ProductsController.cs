@@ -33,7 +33,8 @@ namespace angularApiCore.Controllers
             _mapper = mapper;
 
         }
-
+        
+        [Cached(600)]
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductToReturn>>> GetProducts([FromQuery]ProductSpecParams productParams)
         {
@@ -50,6 +51,7 @@ namespace angularApiCore.Controllers
             return Ok(new Pagination<ProductToReturn>(productParams.PageIndex,productParams.PageSize,totalItems,data));
         }
 
+        [Cached(600)]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductToReturn>> GetProduct(int id)
         {
@@ -58,12 +60,14 @@ namespace angularApiCore.Controllers
             return _mapper.Map<Product, ProductToReturn>(product);
         }
 
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
             return Ok(await _productsBrandRepo.ListAllAsync());
         }
 
+        [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
         {
