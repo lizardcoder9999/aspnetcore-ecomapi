@@ -4,8 +4,11 @@ using System.Threading.Tasks;
 using Core.interfaces;
 using Core.Models;
 using Core.Models.OrderAggregate;
+using Core.Specifications;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualBasic.CompilerServices;
 using Stripe;
+using Order = Core.Models.OrderAggregate.Order;
 using Product = Core.Models.Product;
 
 namespace Infrastructure.Services
@@ -16,6 +19,7 @@ namespace Infrastructure.Services
         private readonly IBasketRepository _basketRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private IPaymentService _paymentServiceImplementation;
 
         public PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IConfiguration config)
         {
@@ -78,6 +82,36 @@ namespace Infrastructure.Services
             await _basketRepository.UpdateBasketAsync(basket);
 
             return basket;
+        }
+
+        public async Task<Order> UpdateOrderPaymentSucceeded(string paymentIntentId)
+        {
+            var spec = new OrderByPaymentIntentIdWithItemsSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null) return null;
+
+            order.Status = OrderStatus.PaymentFailed;
+            _unitOfWork.Repository<Order>().Update(order);
+
+            await _unitOfWork.Complete();
+
+            return null;  
+        }
+
+        public async Task<Order> UpdateOrderPaymentFailed(string paymentIntentId)
+        {
+            var spec = new OrderByPaymentIntentIdWithItemsSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null) return null;
+
+            order.Status = OrderStatus.PaymentFailed;
+
+            await _unitOfWork.Complete();
+
+            return order;
+
         }
     }
 }
